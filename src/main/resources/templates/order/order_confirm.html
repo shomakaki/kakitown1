@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>タイトル</title>
+</head>
+<body>
+<h1>商品確認</h1>
+<table border="1">
+	<tr>
+		<th>商品</th>
+		<th>個数</th>
+		<th>値段</th>
+		<th>合計</th>
+		
+	</tr>
+	<tr th:each="cartItem,status:${session.cartItemList}">
+		<td th:text="${cartItem.item.name}" 
+		></td>
+		<td th:text="${cartItem.quantity}"></td>
+		<td th:text="${cartItem.item.priceM}"></td>
+		<td th:text="${cartItem.item.priceM} * ${cartItem.quantity}"></td>
+		
+	</tr>
+	<tr>
+		<td colspan="3">合計金額</td>
+		
+		<td th:text="${session.sum}"></td>
+	</tr>
+
+
+</table>
+<h1>お客様情報入力</h1>
+<form th:action="@{/orderFinish}" method="post" th:object="${orderForm}">
+
+<div th:errors="*{destinationName}" style="color: red">名前エラー</div>
+名前：<input type="text" name="name" th:field="*{destinationName}"><br>
+
+<div th:errors="*{destinationEmail}" style="color: red">メールアドレス</div>
+メールアドレス：<input type="email" th:field="*{destinationEmail}"><br>
+
+<div th:errors="*{destinationZipcode}" style="color: red">郵便番号</div>
+郵便番号<input type="text" th:field="*{destinationZipcode}"><br>
+
+<div th:errors="*{destinationAddress}" style="color: red">住所</div>
+住所<input type="text" th:field="*{destinationAddress}"><br>
+
+<div th:errors="*{destinationTel}" style="color: red">電話番号</div>
+電話番号<input type="text" th:field="*{destinationTel}"><br>
+
+<!--  <div th:errors="*{deliveryTime}" style="color: red">配達日時</div>
+配達日時<input type="text" th:field="*{deliveryTime}"><br>
+-->
+
+<button>この内容で注文する</button>
+
+</form>
+</body>
+</html>
